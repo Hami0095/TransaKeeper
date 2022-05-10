@@ -1,6 +1,7 @@
-# transactioner
+# transaKeeper
 
-A new Flutter project.
+A new Flutter project. - build for a practice purposes -- 
+this app is created with the purpose to add charts/tables, and add new transactions, State-Management, Styling, UI/UX etc.
 
 ## Getting Started
 
