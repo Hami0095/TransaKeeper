@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Transactions {
   // amount transacted
-  double amount;
+  String amount;
   // date
   DateTime dateTime;
   // id:
