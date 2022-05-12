@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transactioner/widgets/chart.dart';
 import '../models/transactions.dart';
 import '../widgets/new_transactions.dart';
 import '../widgets/transactions_list.dart';
@@ -13,37 +14,49 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Transactions> _userTransactions = [
-    Transactions(
-      amount: "500",
-      dateTime: DateTime.now(),
-      id: 't1',
-      title: 'Shoes',
-    ),
-    Transactions(
-      amount: "1500",
-      dateTime: DateTime.now(),
-      id: 't2',
-      title: 'huawei phone',
-    ),
-    Transactions(
-      amount: "750",
-      dateTime: DateTime.now(),
-      id: 't3',
-      title: 'CK underwear',
-    ),
-    Transactions(
-      amount: "7500",
-      dateTime: DateTime.now(),
-      id: 't4',
-      title: 'Jugnu lights',
-    ),
-    Transactions(
-      amount: "4500",
-      dateTime: DateTime.now(),
-      id: 't5',
-      title: 'Shalwar Kameez',
-    ),
+    // Transactions(
+    //   amount: "500",
+    //   dateTime: DateTime.now(),
+    //   id: 't1',
+    //   title: 'Shoes',
+    // ),
+    // Transactions(
+    //   amount: "1500",
+    //   dateTime: DateTime.now(),
+    //   id: 't2',
+    //   title: 'huawei phone',
+    // ),
+    // Transactions(
+    //   amount: "750",
+    //   dateTime: DateTime.now(),
+    //   id: 't3',
+    //   title: 'CK underwear',
+    // ),
+    // Transactions(
+    //   amount: "7500",
+    //   dateTime: DateTime.now(),
+    //   id: 't4',
+    //   title: 'Jugnu lights',
+    // ),
+    // Transactions(
+    //   amount: "4500",
+    //   dateTime: DateTime.now(),
+    //   id: 't5',
+    //   title: 'Shalwar Kameez',
+    // ),
   ];
+
+  List<Transactions> get _recentTransactions {
+    return _userTransactions.where(
+      (element) {
+        return element.dateTime.isAfter(
+          DateTime.now().subtract(
+            const Duration(days: 7),
+          ),
+        );
+      },
+    ).toList();
+  }
 
   void _addNewTransaction(String txTitle, String txAmount) {
     final newTx = Transactions(
@@ -90,10 +103,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Card(
-              color: Color.fromARGB(255, 240, 184, 250),
-              child: Text('Table of transactions'),
-            ),
+            Charts(recentTransactions: _recentTransactions),
             // Box to add new transaction:
             // To-Do add UserTransactions Widget
             TransactionList(
