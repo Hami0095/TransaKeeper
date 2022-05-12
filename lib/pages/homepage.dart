@@ -46,6 +46,8 @@ class _HomePageState extends State<HomePage> {
     // ),
   ];
 
+  int counter = 0;
+
   List<Transactions> get _recentTransactions {
     return _userTransactions.where(
       (element) {
@@ -63,11 +65,20 @@ class _HomePageState extends State<HomePage> {
     final newTx = Transactions(
       amount: txAmount,
       dateTime: chosenDate,
-      id: DateTime.now.toString(),
+      id: counter.toString(),
       title: txTitle,
     );
     setState(() {
       _userTransactions.add(newTx);
+      counter++;
+    });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((element) {
+        return element.id == id;
+      });
     });
   }
 
@@ -110,6 +121,7 @@ class _HomePageState extends State<HomePage> {
             // To-Do add UserTransactions Widget
             TransactionList(
               transactions: _userTransactions,
+              remover: _deleteTransaction,
             ),
           ],
         ),

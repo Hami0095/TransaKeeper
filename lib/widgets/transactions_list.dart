@@ -5,9 +5,11 @@ import '../models/transactions.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transactions> transactions;
-  const TransactionList({
+  Function remover;
+  TransactionList({
     Key? key,
     required this.transactions,
+    required this.remover,
   }) : super(key: key);
 
   @override
@@ -34,57 +36,6 @@ class TransactionList extends StatelessWidget {
               scrollDirection: Axis.vertical,
               itemCount: transactions.length,
               itemBuilder: (ctx, index) {
-                // return Card(
-                //   //color: Colors.blueAccent,
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //     children: [
-                //       //Price section
-                //       Container(
-                //         decoration: BoxDecoration(
-                //           border: Border.all(
-                //             color: const Color.fromARGB(255, 165, 90, 155),
-                //             style: BorderStyle.solid,
-                //             width: 2,
-                //           ),
-                //           borderRadius: BorderRadius.circular(10),
-                //         ),
-                //         padding: const EdgeInsets.all(10),
-                //         child: Text(
-                //           '\$' + transactions[index].amount,
-                //           style: const TextStyle(
-                //             fontSize: 13,
-                //             fontWeight: FontWeight.bold,
-                //           ),
-                //         ),
-                //       ),
-                //       // this is the details section
-                //       Column(
-                //         children: [
-                //           Text(
-                //             transactions[index].title,
-                //             style: Theme.of(context).textTheme.titleMedium,
-                //             // style: const TextStyle(
-                //             //   color: Color.fromARGB(255, 122, 0, 143),
-                //             //   fontWeight: FontWeight.w700,
-                //             //   fontSize: 18,
-                //             // ),
-                //           ),
-                //           //const SizedBox(height: 20),
-                //           Text(
-                //             DateFormat.yMMMMEEEEd()
-                //                 .format(transactions[index].dateTime),
-                //             style: const TextStyle(
-                //               color: Colors.grey,
-                //               fontSize: 10,
-                //               fontWeight: FontWeight.w600,
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     ],
-                //   ),
-                // );
                 return Card(
                   elevation: 5,
                   margin:
@@ -94,7 +45,8 @@ class TransactionList extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: FittedBox(
-                            child: Text('\$' + transactions[index].amount)),
+                          child: Text('\$' + transactions[index].amount),
+                        ),
                       ),
                     ),
                     title: Text(
@@ -105,6 +57,11 @@ class TransactionList extends StatelessWidget {
                       DateFormat.yMMMEd()
                           .format(transactions[index].dateTime)
                           .toString(),
+                    ),
+                    trailing: IconButton(
+                      color: Color.fromARGB(255, 217, 51, 59),
+                      icon: const Icon(Icons.delete_rounded),
+                      onPressed: () => remover(transactions[index].id),
                     ),
                   ),
                 );
