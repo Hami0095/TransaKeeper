@@ -31,12 +31,12 @@ class Charts extends StatelessWidget {
           'amount': totalSum.toString()
         };
       },
-    );
+    ).reversed.toList();
   }
 
   double get maxSpending {
     return groupedTransactionValues.fold(0, (sum, item) {
-      return sum += (item['amount'] as double);
+      return sum += double.parse(item['amount'].toString());
     });
   }
 
@@ -58,7 +58,7 @@ class Charts extends StatelessWidget {
                   spendingAmount: double.parse(data['amount'].toString()),
                   spendingAmountPercentage: maxSpending == 0.0
                       ? 0.0
-                      : (data['amount'] as double) / maxSpending,
+                      : double.parse(data['amount'].toString()) / maxSpending,
                 ),
               );
             },

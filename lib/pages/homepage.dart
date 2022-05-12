@@ -58,10 +58,11 @@ class _HomePageState extends State<HomePage> {
     ).toList();
   }
 
-  void _addNewTransaction(String txTitle, String txAmount) {
+  void _addNewTransaction(
+      String txTitle, String txAmount, DateTime chosenDate) {
     final newTx = Transactions(
       amount: txAmount,
-      dateTime: DateTime.now(),
+      dateTime: chosenDate,
       id: DateTime.now.toString(),
       title: txTitle,
     );
@@ -82,6 +83,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('My Transactions'),
         actions: [
