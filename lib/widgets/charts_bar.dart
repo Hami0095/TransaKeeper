@@ -16,8 +16,11 @@ class Bars extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        FittedBox(
-          child: Text('\$${spendingAmount.toStringAsFixed(0)}'),
+        Container(
+          height: 20,
+          child: FittedBox(
+            child: Text('\$${spendingAmount.toStringAsFixed(0)}'),
+          ),
         ),
         const SizedBox(height: 10),
         // ignore: sized_box_for_whitespace
@@ -32,14 +35,16 @@ class Bars extends StatelessWidget {
                     color: Colors.grey,
                     width: 1,
                   ),
-                  color: const Color.fromARGB(220, 220, 220, 1),
+                  borderRadius: BorderRadius.circular(12),
+                  color: Color.fromARGB(220, 255, 235, 246),
                 ),
               ),
               FractionallySizedBox(
                 heightFactor: spendingAmountPercentage,
                 child: Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.purple,
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
               ),

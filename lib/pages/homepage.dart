@@ -46,6 +46,8 @@ class _HomePageState extends State<HomePage> {
     // ),
   ];
 
+  int counter = 0;
+
   List<Transactions> get _recentTransactions {
     return _userTransactions.where(
       (element) {
@@ -58,15 +60,25 @@ class _HomePageState extends State<HomePage> {
     ).toList();
   }
 
-  void _addNewTransaction(String txTitle, String txAmount) {
+  void _addNewTransaction(
+      String txTitle, String txAmount, DateTime chosenDate) {
     final newTx = Transactions(
       amount: txAmount,
-      dateTime: DateTime.now(),
-      id: DateTime.now.toString(),
+      dateTime: chosenDate,
+      id: counter.toString(),
       title: txTitle,
     );
     setState(() {
       _userTransactions.add(newTx);
+      counter++;
+    });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((element) {
+        return element.id == id;
+      });
     });
   }
 
@@ -82,6 +94,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('My Transactions'),
         actions: [
@@ -108,6 +121,7 @@ class _HomePageState extends State<HomePage> {
             // To-Do add UserTransactions Widget
             TransactionList(
               transactions: _userTransactions,
+              remover: _deleteTransaction,
             ),
           ],
         ),
