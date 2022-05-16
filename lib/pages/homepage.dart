@@ -90,6 +90,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+
     final appBar = AppBar(
       title: const Text('My Transactions'),
       actions: [
