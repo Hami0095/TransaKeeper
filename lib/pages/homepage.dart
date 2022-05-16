@@ -118,18 +118,22 @@ class _HomePageState extends State<HomePage> {
                       })
                 ],
               ),
+            if (isLandScape) txListWidget,
             if (!isLandScape)
-              _showChart == true
-                  ? Container(
-                      height: (MediaQuery.of(context).size.height -
-                              appBar.preferredSize.height -
-                              MediaQuery.of(context).padding.top) *
-                          0.27,
-                      child: Charts(recentTransactions: _recentTransactions),
-                    )
-                  // Box to add new transaction:
-                  // To-Do add UserTransactions Widget
-                  : txListWidget,
+              Column(
+                children: [
+                  Container(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        0.27,
+                    child: Charts(recentTransactions: _recentTransactions),
+                  ),
+                  txListWidget,
+                ],
+              )
+            // Box to add new transaction:
+            // To-Do add UserTransactions Widget
           ],
         ),
       ),
