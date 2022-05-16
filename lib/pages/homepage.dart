@@ -74,36 +74,35 @@ class _HomePageState extends State<HomePage> {
         remover: _deleteTransaction,
       ),
     );
-    final appBar = Platform.isIOS
-        ? CupertinoNavigationBar(
-            middle: const Text('My Transactions'),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    startAddNewTransaction(context);
-                  },
-                  child: const Icon(
-                    CupertinoIcons.add,
-                  ),
-                ),
-              ],
+    final cupertinoAppBar = CupertinoNavigationBar(
+      middle: const Text('My Transactions'),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GestureDetector(
+            onTap: () {
+              startAddNewTransaction(context);
+            },
+            child: const Icon(
+              CupertinoIcons.add,
             ),
-          )
-        : AppBar(
-            title: const Text('My Transactions'),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  startAddNewTransaction(context);
-                },
-                icon: const Icon(
-                  Icons.add,
-                ),
-              ),
-            ],
-          );
+          ),
+        ],
+      ),
+    );
+    final appBar = AppBar(
+      title: const Text('My Transactions'),
+      actions: [
+        IconButton(
+          onPressed: () {
+            startAddNewTransaction(context);
+          },
+          icon: const Icon(
+            Icons.add,
+          ),
+        ),
+      ],
+    );
     final pageBody = SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -155,7 +154,7 @@ class _HomePageState extends State<HomePage> {
     return Platform.isIOS
         ? CupertinoPageScaffold(
             child: pageBody,
-            navigationBar: appBar,
+            navigationBar: cupertinoAppBar,
           )
         : Scaffold(
             backgroundColor: Colors.white,
