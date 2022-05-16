@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
 import '/widgets/chart.dart';
 import '../models/transactions.dart';
 import '../widgets/new_transactions.dart';
@@ -60,19 +64,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  var appBar = AppBar(
-    title: const Text('My Transactions'),
-    actions: [
-      IconButton(
-        onPressed: () {
-          //startAddNewTransaction(context);
-        },
-        icon: const Icon(
-          Icons.add,
-        ),
-      ),
-    ],
-  );
   @override
   Widget build(BuildContext context) {
     final isLandScape =
@@ -83,15 +74,38 @@ class _HomePageState extends State<HomePage> {
         remover: _deleteTransaction,
       ),
     );
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: appBar,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => startAddNewTransaction(context),
-        child: const Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: SingleChildScrollView(
+    final appBar = Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: const Text('My Transactions'),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    startAddNewTransaction(context);
+                  },
+                  child: const Icon(
+                    CupertinoIcons.add,
+                  ),
+                ),
+              ],
+            ),
+          )
+        : AppBar(
+            title: const Text('My Transactions'),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  startAddNewTransaction(context);
+                },
+                icon: const Icon(
+                  Icons.add,
+                ),
+              ),
+            ],
+          );
+    final pageBody = SafeArea(
+      child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -109,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Switch(
+                  Switch.adaptive(
                       value: _showChart,
                       onChanged: (val) {
                         setState(() {
@@ -138,5 +152,23 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            child: pageBody,
+            navigationBar: appBar,
+          )
+        : Scaffold(
+            backgroundColor: Colors.white,
+            appBar: appBar,
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    onPressed: () => startAddNewTransaction(context),
+                    child: const Icon(Icons.add),
+                  ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            body: pageBody,
+          );
   }
 }
