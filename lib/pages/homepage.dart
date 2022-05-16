@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:transactioner/widgets/chart.dart';
+import '/widgets/chart.dart';
 import '../models/transactions.dart';
 import '../widgets/new_transactions.dart';
 import '../widgets/transactions_list.dart';
@@ -13,41 +13,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Transactions> _userTransactions = [
-    // Transactions(
-    //   amount: "500",
-    //   dateTime: DateTime.now(),
-    //   id: 't1',
-    //   title: 'Shoes',
-    // ),
-    // Transactions(
-    //   amount: "1500",
-    //   dateTime: DateTime.now(),
-    //   id: 't2',
-    //   title: 'huawei phone',
-    // ),
-    // Transactions(
-    //   amount: "750",
-    //   dateTime: DateTime.now(),
-    //   id: 't3',
-    //   title: 'CK underwear',
-    // ),
-    // Transactions(
-    //   amount: "7500",
-    //   dateTime: DateTime.now(),
-    //   id: 't4',
-    //   title: 'Jugnu lights',
-    // ),
-    // Transactions(
-    //   amount: "4500",
-    //   dateTime: DateTime.now(),
-    //   id: 't5',
-    //   title: 'Shalwar Kameez',
-    // ),
-  ];
+  final List<Transactions> _userTransactions = [];
 
   int counter = 0;
-
+  bool _showChart = false;
   List<Transactions> get _recentTransactions {
     return _userTransactions.where(
       (element) {
@@ -91,21 +60,32 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  var appBar = AppBar(
+    title: const Text('My Transactions'),
+    actions: [
+      IconButton(
+        onPressed: () {
+          //startAddNewTransaction(context);
+        },
+        icon: const Icon(
+          Icons.add,
+        ),
+      ),
+    ],
+  );
   @override
   Widget build(BuildContext context) {
+    final isLandScape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    final txListWidget = Container(
+      child: TransactionList(
+        transactions: _userTransactions,
+        remover: _deleteTransaction,
+      ),
+    );
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('My Transactions'),
-        actions: [
-          IconButton(
-            onPressed: () => startAddNewTransaction(context),
-            icon: const Icon(
-              Icons.add,
-            ),
-          ),
-        ],
-      ),
+      appBar: appBar,
       floatingActionButton: FloatingActionButton(
         onPressed: () => startAddNewTransaction(context),
         child: const Icon(Icons.add),
@@ -116,13 +96,40 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Charts(recentTransactions: _recentTransactions),
-            // Box to add new transaction:
-            // To-Do add UserTransactions Widget
-            TransactionList(
-              transactions: _userTransactions,
-              remover: _deleteTransaction,
-            ),
+            if (isLandScape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Show Chart',
+                    style: TextStyle(
+                      fontFamily: 'OpenSans',
+                      fontSize: 15,
+                      color: Colors.purple,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Switch(
+                      value: _showChart,
+                      onChanged: (val) {
+                        setState(() {
+                          _showChart = val;
+                        });
+                      })
+                ],
+              ),
+            if (!isLandScape)
+              _showChart == true
+                  ? Container(
+                      height: (MediaQuery.of(context).size.height -
+                              appBar.preferredSize.height -
+                              MediaQuery.of(context).padding.top) *
+                          0.27,
+                      child: Charts(recentTransactions: _recentTransactions),
+                    )
+                  // Box to add new transaction:
+                  // To-Do add UserTransactions Widget
+                  : txListWidget,
           ],
         ),
       ),
