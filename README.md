@@ -5,3 +5,5 @@ this app is created with the purpose to add charts/tables, and add new transacti
 
 This application is completely responsive and adaptive to all kind of screens and orientations. Android and iOS version of the application has been added.
 In order to run this application, clone the project and run the flutter project in debug mode. 
+
+ScreenShots from the application has been added in ScreenShots folder.
